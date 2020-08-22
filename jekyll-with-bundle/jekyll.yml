@@ -1,0 +1,64 @@
+---
+- name: Deploy jekyll
+  hosts: web
+  vars:
+    user: "{{ ansible_user }}"
+    user_bashrc: "{{ ansible_env.HOME }}/.bashrc"
+    proj_app: jekyll_example
+    proj_name: "{{ proj_app }}"
+    proj_path: "{{ ansible_env.HOME }}/jekyll/{{ proj_name }}"
+    bundle_path: vendor/bundle
+    proj_bin: "{{ proj_path }}/{{ bundle_path }}/bin"
+    gems_path: "{{ ansible_env.HOME }}/gems"
+    gems_bin: "{{ gems_path }}/bin"
+    jekyll_version: 3.9.0
+    ruby_version: 2.7
+  tasks:
+    - name: add ppa repositories
+      apt_repository:
+        repo: 'ppa:brightbox/ruby-ng'
+        state: present
+      become: True
+    - name: install apt packages
+      apt: 
+        name:
+          - ruby{{ ruby_version }}
+          - ruby{{ ruby_version }}-dev
+          - build-essential
+          - zlib1g-dev
+          - dh-autoreconf
+        update_cache: yes
+        cache_valid_time: 3600
+      become: True
+    - name: create project path
+      file: 
+        path: "{{ proj_path }}" 
+        state: directory
+    - name: create gems path
+      file:
+        path: "{{ gems_path }}"
+        state: directory
+    - name: set environment to install ruby gems to ~/gems
+      blockinfile:
+        path: "{{ user_bashrc }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - Install Ruby Gems to ~/gems"
+        block: |
+                export GEM_HOME="{{ gems_path }}"
+                export PATH="{{ gems_bin }}:$PATH"
+    - name: install locally bundler gems
+      gem: 
+        name: bundler
+        install_dir: "{{ gems_path }}"
+        user_install: no
+    - name: install jekyll with bundler
+      shell: |
+              export GEM_HOME="{{ gems_path }}"
+              export PATH="{{ gems_bin }}:$PATH"
+              bundle init
+              bundle config set path '{{ bundle_path }}'
+              bundle add jekyll -v {{ jekyll_version }}
+              bundle exec jekyll new --force --skip-bundle .
+              bundle install
+      args:
+        executable: /bin/bash
+        chdir: "{{ proj_path }}"
