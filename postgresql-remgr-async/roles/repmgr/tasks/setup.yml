@@ -1,0 +1,21 @@
+- name: create repmgr confd path
+  file:
+    path: "{{ repmgr_confd }}"
+    state: directory
+    owner: postgres
+    mode: 0744
+  become: True
+- name: install repmgr config
+  template: 
+    src: repmgr.conf.j2 
+    dest: "{{ repmgr_config }}" 
+    mode: 0644
+    owner: postgres
+  become: True
+- name: install pg config
+  template:
+    src: pg_repmgr.conf.j2
+    dest: "{{ pg_confd_dir }}/pg_repmgr.conf"
+    mode: 0644
+    owner: postgres
+  become: True

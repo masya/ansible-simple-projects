@@ -1,0 +1,5 @@
+node_id={{ hostvars[inventory_hostname].repmgr_id }}
+node_name={{ hostvars[inventory_hostname].repmgr_name }}
+conninfo='host={{ hostvars[inventory_hostname].local_ip }} user=repmgr dbname=repmgr connect_timeout=2'
+data_directory='{{ pg_data_dir }}'
+pg_bindir='{{ pg_bin_dir }}'

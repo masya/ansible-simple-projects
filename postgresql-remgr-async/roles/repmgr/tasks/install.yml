@@ -1,0 +1,19 @@
+- name: add key
+  apt_key: 
+    url: "{{ repmgr_apt_key }}" 
+    state: present
+  become: True
+- name: install apt-transport-https
+  package: 
+    name: apt-transport-https 
+    state: present
+  become: True
+- name: add repo
+  apt_repository: 
+    repo: "{{ repmgr_apt_repo }}"
+  become: True
+- name: install repmgr
+  package: 
+    name: "postgresql-{{ pg_version }}-repmgr" 
+    state: present
+  become: True

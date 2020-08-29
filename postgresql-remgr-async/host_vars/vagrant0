@@ -1,0 +1,6 @@
+local_ip: 192.168.33.13
+pg_enabled: no
+repmgr_id: 0
+repmgr_name: PG00
+repmgr_master: False
+repmgr_witness: True

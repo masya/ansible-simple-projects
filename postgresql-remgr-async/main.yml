@@ -1,0 +1,8 @@
+- hosts: databases
+  roles:
+     - postgres
+  tags: pg
+- hosts: databases
+  roles:
+    - repmgr
+  tags: repmgr

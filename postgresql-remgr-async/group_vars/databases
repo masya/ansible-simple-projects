@@ -1,0 +1,13 @@
+subnet_allowed: "0.0.0.0/0"
+pg_port: 5432
+pg_version: 12
+pg_max_wal_senders: 5
+pg_wal_keep_segments: 5
+pg_hba_file: "/etc/postgresql/{{ pg_version }}/main/pg_hba.conf"
+pg_data_dir: "/var/lib/postgresql/{{ pg_version }}/main/"
+pg_bin_dir: "/usr/lib/postgresql/{{ pg_version }}/bin/"
+pg_confd_dir: "/etc/postgresql/{{ pg_version }}/main/conf.d/"
+
+repmgr_confd: "/etc/repmgr/{{ pg_version }}"
+repmgr_config: "{{ repmgr_confd }}/repmgr.conf"
+repmgr_init_log: "{{ repmgr_confd }}/repmgr_init.log"

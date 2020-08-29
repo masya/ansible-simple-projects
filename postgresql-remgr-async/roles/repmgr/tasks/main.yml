@@ -1,0 +1,10 @@
+- include: install.yml
+- include: setup.yml
+- include: reconfig.yml
+- include: master.yml
+  when:
+    - repmgr_master == True
+- include: standby.yml
+  when:
+        - repmgr_master == False
+        - repmgr_witness == False      

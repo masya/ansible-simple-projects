@@ -1,0 +1,12 @@
+- name: update pg hba
+  blockinfile:
+    path: "{{ pg_hba_file }}"
+    insertbefore: BOF
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - REPMGR TASK"
+    block: "{{ lookup('template', 'pg_hba.conf.j2') }}"
+  become: True
+- name: restart postgresql
+  service: 
+    name: postgresql 
+    state: restarted
+  become: True

@@ -1,0 +1,16 @@
+- name: add key
+  apt_key:
+    url: "{{ pg_apt_key }}"
+    state: present
+  become: True
+- name: add repo
+  apt_repository:
+    repo: "{{ pg_apt_repo }}"
+  become: True
+- name: install postgresql
+  package:
+    name: "postgresql-{{ pg_version }}"
+    state: present
+  become: True
+  notify:
+    - restart postgresql

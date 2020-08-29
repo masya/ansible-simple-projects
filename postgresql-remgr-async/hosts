@@ -1,0 +1,22 @@
+[production]
+
+[stagging]
+
+[devel]
+vagrant1 ansible_ssh_host=192.168.33.10
+vagrant2 ansible_ssh_host=192.168.33.11
+vagrant3 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2201
+vagrant0 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2202
+
+[primary]
+vagrant1
+
+[standby]
+vagrant2
+
+[witness]
+vagrant0
+
+[databases:children]
+primary
+standby
