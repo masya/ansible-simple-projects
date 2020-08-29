@@ -1,5 +1,7 @@
 Ansible playbook for creating a Jekyll Scaffold with Bundler.
+
 [MORE ABOUT USING JEKYLL WITH BUNDLER](https://masya.github.io/other/2020/08/20/github-jekyll-part-02.html)
+
 Tested on Vagrant ubuntu/bionic64, Ansible 2.9.11.
 
 ### Installation
